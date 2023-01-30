@@ -32,7 +32,7 @@ function Result() {
   }, []);
 
   async function callResultData() {
-    const req = await fetch("http://localhost:5000/api/result/" + quizId, {
+    const req = await fetch("http://localhost:80/api/result/" + quizId, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

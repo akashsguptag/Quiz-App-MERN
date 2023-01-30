@@ -30,7 +30,7 @@ function History() {
   }, []);
 
   async function getHistory() {
-    const req = await fetch("http://localhost:5000/api/history", {
+    const req = await fetch("http://localhost:80/api/history", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

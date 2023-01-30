@@ -4,6 +4,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import Quiz from './components/Quiz';
+import AddQuiz from './components/AddQuiz';
 import Result from './components/Result';
 import History from './components/History';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" exact component={Register}/>
         <Route path="/login" exact component={Login}/>
         <Route path="/quiz" exact component={Quiz}/>
+        <Route path="/add-quiz" exact component={AddQuiz}/>
         <Route path="/result" exact component={Result}/>
         <Route path="/history" exact component={History}/>
       </BrowserRouter>

@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/user");
 const Quiz = require("./models/quiz");
+const AddQuiz = require("./models/Addquiz");
 const quizAPI = require("./quiz");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -14,7 +15,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/quiz");
+mongoose.connect("mongodb+srv://sanju:sanju8109@cluster0.mxucbot.mongodb.net/?retryWrites=true&w=majority");
 
 app.post("/api/register", (req, res) => {
   try {
@@ -69,39 +70,44 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.post("/api/add-quiz", async (req, res) => {
+  const quiz = await AddQuiz.create({
+    user: "1",
+    question: req.body.question,
+    optionA: req.body.optionA,
+    optionB: req.body.optionB,
+    optionC: req.body.optionC,
+    optionD: req.body.optionD,
+    correct: req.body.optionD,
+  });
+  return res.json({
+    status: "ok",
+    quizId: quiz._id,
+  });
+});
+
+app.post("/api/get-quiz/:quizId", async (req, res) => {
+  const quiz = await Quiz.findOne({
+      _id: req.params.quizId,
+  });
+  return res.json({
+    status: "ok",
+    core: quiz.score,
+  });
+});
+
 app.post("/api/quiz", async (req, res) => {
-  try {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded) {
-      const email = decoded.email;
-      const user = await User.findOne({
-        email: email,
-      });
-      if (user) {
-        const quizData = await quizAPI(req.body.category, req.body.difficulty);
-        const quiz = await Quiz.create({
-          user: user._id,
-          category: req.body.category,
-          difficulty: req.body.difficulty,
-        });
-        return res.json({
-          status: "ok",
-          quizId: quiz._id,
-          quizData: quizData,
-        });
-      } else {
-        return res.json({
-          status: "error",
-          message: "User not found",
-        });
-      }
-    } else {
-      return res.json({ status: "error", message: "Invalid Token" });
-    }
-  } catch (err) {
-    return res.json({ status: "error", message: "Invalid Token" });
-  }
+  const quizData = await quizAPI(req.body.category, req.body.difficulty);
+  const quiz = await Quiz.create({
+    user: "1",
+    category: req.body.category,
+    difficulty: req.body.difficulty,
+  });
+  return res.json({
+    status: "ok",
+    quizId: quiz._id,
+    quizData: quizData,
+  });
 });
 
 app.post("/api/result", async (req, res) => {
@@ -197,6 +203,6 @@ app.get("/api/history", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+app.listen(80, () => {
+  console.log("Server is running on port 80");
 });

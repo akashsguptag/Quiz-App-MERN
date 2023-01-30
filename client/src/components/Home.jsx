@@ -24,7 +24,7 @@ function Home() {
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    const req = await fetch("http://localhost:5000/api/quiz", {
+    const req = await fetch("http://localhost:80/api/quiz", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,46 +93,19 @@ function Home() {
           width={100}
         />
       ) : (
+        
         <div>
-          <h1 className="heading">The Programmer's Quiz 👩‍💻</h1>
-          <p className="heading2">Let's Start a new Quiz</p>
-          <form className="form" onSubmit={handleSubmit}>
-            <label htmlFor="category">Select Category</label>
+          <h1 className="heading">Welcome to Quiz Web Application</h1>
+          <p className="heading2">Here is way to start</p>
+          <div className="form">
+            <label htmlFor="category">Simple Quiz</label>
             <br />
-            <select
-              className="category"
-              name="category"
-              value={category}
-              onChange={handleSelect}
-            >
-              <option value="Random">Random</option>
-              <option value="linux">Linux</option>
-              <option value="devops">DevOps</option>
-              <option value="docker">Docker</option>
-              <option value="bash">Bash</option>
-              <option value="sql">SQL</option>
-              <option value="cms">CMS</option>
-              <option value="code">Code</option>
-            </select>
-            <br />
-            <label htmlFor="difficulty">Select Difficulty</label>
-            <br />
-            <select
-              className="difficulty"
-              name="difficulty"
-              value={difficulty}
-              onChange={handleSelect}
-            >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-            <br />
-            <button className="start" type="submit">
+            <button className="start" type="submit" onClick={handleSubmit}>
               Start Quiz
             </button>
             {error && <div className="error">{errorMsg}</div>}
-          </form>
+          </div>
+          
           <div className="btns">
             <button
               className="logout"
